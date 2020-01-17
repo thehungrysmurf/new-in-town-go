@@ -65,7 +65,7 @@ func main() {
 	r.Get("/directions_map/{starting_point_id}/{waypoints}", s.handleDirectionsMap)
 
 	// start listener
-	err = http.ListenAndServe(":8080", r)
+	err = http.ListenAndServe(":"+cfg.Port, r)
 	if err != nil {
 		log.Fatal(err)
 	}
