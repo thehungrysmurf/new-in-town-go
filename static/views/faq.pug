@@ -1,0 +1,48 @@
+extends static/views/layout.pug
+
+block append content
+  body
+
+    div.container-custom
+      nav.navbar.navbar-inverse(role="navigation")
+        ul.nav.navbar-nav
+          li
+            a(href="/") Home
+          li
+            a(href="/about") About
+          li.active
+            a(href="/faq") FAQ
+
+      div.jumbotron
+        ul.faq
+          li
+            h4.faq What's a GPX file?
+            p.faq The GPs eXchange format is a data format used to share GPS data between programs and users. GPX is based on the XML file standard.
+          li
+            h4.faq What can I do with a GPX file?
+            p.faq GPX files can be read by web and mobile apps like #[a(href="https://www.strava.com/") Strava], #[a(href="https://ridewithgps.com/" target="_blank") RideWithGPS], #[a(href="http://osmand.net/" target="_blank") OsmAnd], #[a(href="http://www.mapmyride.com/" target="_blank") MapMyRide], and any handheld GPS unit. These apps read the file and output audio and visual route directions, just as when you use Google Maps to drive to an unfamiliar place.
+            p.faq A major advantage is you can be routed even if your device is offline, so if you've uploaded the GPX file into your app you don't have to use any mobile data for directions. Very useful when you travel internationally or when you just don't have reception.
+            p.faq Also, any application that reads XML files (like Microsoft Excel) can read a GPX file.
+          li
+            h4.faq How does this tool build the route?
+            p.faq The problem of route creation between a list of static points is known as #[a(href="https://simple.wikipedia.org/wiki/Travelling_salesman_problem" target="_blank") The Traveling Salesperson (TSP)], one of the most well known problems in computer science. 'New in Town' uses the Google Maps Directions API to rearrange your attractions into a sequence that optimizes for time and distance. To learn more about the strategy, see #[a(href="https://developers.google.com/optimization/routing/tsp/tsp" target="_blank") here].
+          li
+            h4.faq How many attractions can I have in a route?
+            p.faq 'New in Town' supports maximum 23 attractions per route, excluding the starting point. The limitation is imposed by the Google Directions API (as well as the increasing computational complexity of solving TSP with a growing number of points).
+          li
+            h4.faq Can I use this tool to create routes outside of North America?
+            p.faq Sure. 'New in Town' validates your attraction names with the Google Maps Places API. If Google knows about the place you want to see, you can use it in your route.
+          li
+            h4.faq Can this tool help me plan a cycling route too?
+            p.faq Soon! Stay tuned.
+          li
+            h4.faq Can I use this route in the Google Maps app on my phone?
+            p.faq You can. From the route in the embedded Google Maps, click 'More options' which takes you to the expanded Google map with the entire list of attractions. The 'Send directions to your phone' link on the left gives you options to text/email a map link to your phone.
+          li
+            h4.faq Can I see the code behind this tool?
+            p.faq The code is #[a(href="https://github.com/thehungrysmurf/new_in_town" target="_blank") here]. If you have a GitHub account you can also request features and report bugs by opening an Issue in the repo.
+          li
+            h4.faq What's the motivation behind 'New in Town'?
+            p.faq I recently did a ~1,400-mile solo cycling tour in Northern Europe and planned my route using Google Maps and GPX files. I used OsmAnd to read my route and "tell" it to me on the road in the headphones, so that my eyes were free to absorb my surroundings.
+            p.faq When I arrived in cities where I wanted to explore on foot, I wanted to have the same experience of being guided seamlessly and be free to look around instead of being stuck with my eyes in a map. I couldn't find an easy-to-use tool that could do that for me at no cost, so I started developing 'New in Town' on the road.
+            p.faq To read about my adventures on two wheels and #[a(href="https://routednorth.wordpress.com/2017/07/11/being-a-bad-cycling-tourist-in-copenhagen/" target="_blank") the prototype GPX walking tour in Copenhagen] that started the idea, check out #[a(href="https://routednorth.wordpress.com/" target="_blank") my blog].

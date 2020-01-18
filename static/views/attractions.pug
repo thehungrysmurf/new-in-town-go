@@ -1,0 +1,101 @@
+extends static/views/layout.pug
+
+mixin attractionField
+  div.attraction-field
+    input.attraction-name(type="text" name="attraction_name" placeholder="Enter an attraction")
+    input.sneaky(type="text" name="attraction_id")
+    div.infowindow-content
+      span#place-name.title
+      span#place-address
+
+mixin addAttractionButton
+  input.btn-go-medium(type="button" value="Add an attraction" onclick="displayAttractionField()")
+
+mixin submitButton
+  input#btn-go-large(type="submit", value="Submit list" style="margin-left:6px;")
+
+block append content
+  body
+
+    div.container-custom
+      nav.navbar.navbar-inverse(role="navigation")
+        ul.nav.navbar-nav
+          li
+            a(href="/") Home
+          li
+            a(href="/about") About
+          li
+            a(href="/faq") FAQ
+
+      div.jumbotron
+        h3 This is your current location
+        iframe(width="600" height="450" frameborder="0" src="/current_location_map" allowfullscreen="allowfullscreen")
+
+      div
+        form#attractions-form(action="/directions" method="post")
+          h4 What is your starting point?
+          br
+          input#starting-point(type="text" name="attraction_name" placeholder="Enter a place/address")
+          input.sneaky(type="text" name="attraction_id")
+          div.infowindow-content
+            span#place-name.title
+            span#place-address
+          br
+          h4 What attractions do you want to visit?
+          br
+          +addAttractionButton
+
+  script.
+    let totalAttractionFields = 0
+    let submitButtonEnabled = false
+
+    window.onload = function() {
+      const startingPointField = document.getElementById('starting-point')
+      validateAttraction(startingPointField)
+    }
+
+    document.getElementById("attractions-form").onkeypress = function(event) {
+      const keyCode = event.charCode || event.keyCode || 0
+      if (keyCode === 13) {
+        event.preventDefault()
+      }
+    }
+
+    function retrieveLastAttractionField() {
+      const currentAttractionFields = document.getElementsByClassName('attraction-name')
+      return currentAttractionFields[currentAttractionFields.length - 1]
+    }
+
+    function retrieveLastHiddenInput() {
+      const hiddenInputs = document.getElementsByClassName('sneaky')
+      return hiddenInputs[hiddenInputs.length - 1]
+    }
+
+    function displayAttractionField() {
+      document.getElementById("attractions-form").insertAdjacentHTML('beforeend', '<div class="attraction-field"><input class="attraction-name" type="text" name="attraction_name" placeholder="Enter an attraction"/><input class="sneaky" type="text" name="attraction_id"/><div class="infowindow-content"><span class="title" id="place-name"></span><span id="place-address"></span></div></div>')
+      validateAttraction(retrieveLastAttractionField())
+      totalAttractionFields = totalAttractionFields + 1
+      if (totalAttractionFields < 23) {
+        document.getElementById("attractions-form").insertAdjacentHTML('beforeend', '<input class="btn-go-medium" type="button" value="Add an attraction" onclick="displayAttractionField()"/>')
+      }
+      if (totalAttractionFields > 1 && submitButtonEnabled == false) {
+        document.getElementById("attractions-form").insertAdjacentHTML('afterbegin', '<input id="btn-go-large" type="submit" value="Submit list" style="margin-left:6px;"/>')
+        submitButtonEnabled = true
+      }
+    }
+
+    function validateAttraction(attractionName) {
+      if (attractionName instanceof HTMLInputElement) {
+        const autocomplete = new google.maps.places.Autocomplete(attractionName)
+        const infowindow = new google.maps.InfoWindow()
+        const infowindowContent = document.getElementById('infowindow-content')
+        infowindow.setContent(infowindowContent)
+        autocomplete.addListener('place_changed', function() {
+          infowindow.close()
+          const place = autocomplete.getPlace()
+          retrieveLastHiddenInput().value = place.place_id
+        })
+      }
+    }
+
+  script(src="https://maps.googleapis.com/maps/api/js?key={{.}}&libraries=places&callback=validateAttraction")

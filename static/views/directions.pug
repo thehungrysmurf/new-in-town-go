@@ -1,0 +1,21 @@
+extends static/views/layout.pug
+
+block append content
+  div.container-custom
+    nav.navbar.navbar-inverse(role="navigation")
+        ul.nav.navbar-nav
+          li
+            a(href="/") Home
+          li
+            a(href="/about") About
+          li
+            a(href="/faq") FAQ
+
+    div.jumbotron
+      h2 Here is your route starting at
+      p {{.RouteInfo.StartingPointName}}
+      iframe(width="600" height="450" frameborder="0" allowfullscreen="allowfullscreen" src="/directions_map/{{.RouteInfo.StartingPointID}}/{{.RouteInfo.OrderedWaypoints}}")
+      h4
+        a(href="/download/{{.GpxFilename}}") Save your route as a GPX file
+      h2
+        a(href="/attractions") Start over

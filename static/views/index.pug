@@ -1,0 +1,21 @@
+extends static/views/layout.pug
+
+block append content
+  body
+    div.container-custom
+      nav.navbar.navbar-inverse(role="navigation")
+        ul.nav.navbar-nav
+          li.active
+            a(href="/") Home
+          li
+            a(href="/about") About
+          li
+            a(href="/faq") FAQ
+
+      div.jumbotron
+        i.icon-map-marker
+        h1 New In Town
+        br
+        form(action='/attractions')
+          p What do you want to see today?
+          input#btn-go-large(type="submit" value="Start to plan")
