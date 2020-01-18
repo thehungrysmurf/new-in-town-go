@@ -196,7 +196,7 @@ func(s *server) handleDownload(w http.ResponseWriter, r *http.Request) {
 }
 
 func(s *server) handleYouAreHere(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r, fmt.Sprintf("https://www.google.com/maps/embed/v1/place?key=%s&q=current+location"), http.StatusMovedPermanently)
+	http.Redirect(w, r, fmt.Sprintf("https://www.google.com/maps/embed/v1/place?key=%s&q=current+location", s.apiKey), http.StatusMovedPermanently)
 }
 
 func(s *server) handleDirectionsMap(w http.ResponseWriter, r *http.Request) {
